@@ -1,0 +1,44 @@
+.ClothingLibrary {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;   
+}
+
+.ClothingLibrary-App {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.ClothingLibrary-Library {
+    width: 100%;
+}
+
+.ClothingLibrary-PageHeader {
+    background: rgb(255, 255, 255);
+}
+
+.ClothingLibrary-Row {
+    margin: 15px;
+}
+
+.ClothingLibrary-Col {
+    margin: 15px;
+}
+
+.ClothingLibrary-Title {
+    align-self: flex-start;
+    margin: 0.8em;
+}
+
+.Square {
+    width: 10px;
+    height: 10px;
+    margin: 5px;
+    background-color:blue;
+}

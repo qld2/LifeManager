@@ -1,0 +1,76 @@
+.ClothingAdd-Full {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;   
+}
+
+.ClothingAdd-Default {
+    display: flex;
+    flex-direction: row;
+    width: 415px;
+    height: 320px;   
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.ClothingAdd-Expansion {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.ClothingAdd-Left {
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5%;
+}
+
+.ClothingAdd-Right {
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5%;
+}
+
+.ClothingAdd-Title {
+    align-self: flex-start;
+    margin-top: 0.5em;
+    margin-bottom: 0em;
+}
+
+.ClothingAdd-Input {
+    width: 100%;
+}
+
+.ClothingAdd-Footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.ClothingAdd-Button {
+    margin-right: auto  ;
+}
+
+
+.ClothingAdd-Separator {
+    width: 1px;
+    height: 100%;
+    background-color: #f0f0f0;
+    margin-right: 15px;
+}
+
+.ClothingAdd-Tags {
+    width: 415px;
+    height: 320px;   
+    background-color: aqua;
+}
+
+.ant-modal {
+    width: fit-content;
+}
