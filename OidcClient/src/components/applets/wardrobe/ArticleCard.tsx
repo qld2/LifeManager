@@ -7,6 +7,7 @@ import './ArticleCard.css';
 
 import Icon from '@ant-design/icons';
 import { ClothingDTO } from 'fetch/wardrobe';
+import { Button } from 'antd';
 
 type Props = {
   article: ClothingDTO
@@ -25,12 +26,35 @@ class ArticleCard extends React.Component<Props, State> {
     };
   }
 
+  generateTagList = ():JSX.Element => {
+    const { article } = this.props;
+    const output: JSX.Element[] = [];
+
+    article.clothingTags?.forEach((tag: string) => {
+      output.push(
+        <Button>
+          { tag }
+        </Button>,
+      );
+    });
+
+    return (<div>{ output }</div>);
+  };
+
   render() {
     const { article } = this.props;
     return (
       <div className="ArticleCard">
-        <Icon className="ArticleCard-Icon" style={{ fontSize: '100px', color: article.color }} component={TShirtIcon} />
-        <h3 className="ArticleCard-Title">{article.name}</h3>
+        <div className="ArticleCard-Left">
+          <h3>{article.articleName}</h3>
+          {this.generateTagList()}
+        </div>
+        <div className="ArticleCard-Right">
+          <Icon className="ArticleCard-Icon" style={{ fontSize: '100px', color: article.color }} component={TShirtIcon} />
+          <div className="ArticleCard-BelowIcon">
+            <Button>Shirt</Button>
+          </div>
+        </div>
       </div>
     );
   }

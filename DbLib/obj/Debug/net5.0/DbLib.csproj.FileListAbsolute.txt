@@ -1,0 +1,12 @@
+C:\Development\LifeManager\DbLib\bin\Debug\net5.0\DbLib.deps.json
+C:\Development\LifeManager\DbLib\bin\Debug\net5.0\DbLib.dll
+C:\Development\LifeManager\DbLib\bin\Debug\net5.0\ref\DbLib.dll
+C:\Development\LifeManager\DbLib\bin\Debug\net5.0\DbLib.pdb
+C:\Development\LifeManager\DbLib\obj\Debug\net5.0\DbLib.csproj.AssemblyReference.cache
+C:\Development\LifeManager\DbLib\obj\Debug\net5.0\DbLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Development\LifeManager\DbLib\obj\Debug\net5.0\DbLib.AssemblyInfoInputs.cache
+C:\Development\LifeManager\DbLib\obj\Debug\net5.0\DbLib.AssemblyInfo.cs
+C:\Development\LifeManager\DbLib\obj\Debug\net5.0\DbLib.csproj.CoreCompileInputs.cache
+C:\Development\LifeManager\DbLib\obj\Debug\net5.0\DbLib.dll
+C:\Development\LifeManager\DbLib\obj\Debug\net5.0\ref\DbLib.dll
+C:\Development\LifeManager\DbLib\obj\Debug\net5.0\DbLib.pdb

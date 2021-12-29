@@ -1,0 +1,11 @@
+.TypeSelector {
+    width: 100%;
+}
+
+.TypeSelector-Button {
+    margin: 5px
+}
+
+.ant-btn {
+    text-align: left;
+}

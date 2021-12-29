@@ -1,9 +1,13 @@
 import Function from 'util/Function';
 
 export type ClothingDTO = {
-  name: string,
-  type: string,
-  color: string
+  id?: string,
+  timeCreated?: string,
+  articleName: string,
+  clothingType?: string,
+  clothingTags?: string[],
+  color?: string,
+  timesWorn?: number,
 };
 
 export function getClothingLibrary(token: string | undefined, successCallback: Function<ClothingDTO[], void> | null,

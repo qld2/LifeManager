@@ -14,6 +14,7 @@ using System.Data;
 using Microsoft.IdentityModel.Protocols;
 using System.Data.SqlClient;
 using Dapper;
+using DbLib;
 
 namespace WardrobeApi.Controllers
 {
@@ -22,9 +23,10 @@ namespace WardrobeApi.Controllers
     //[ApiController]
     public class ClothesController : Controller //Base
     {
-        public ClothingDb _db { get; set; }
+        //public ClothingDb _db { get; set; }
+        public Db _db;
 
-        public ClothesController(ClothingDb db)
+        public ClothesController(Db db)
         {
             _db = db;
         }
@@ -35,11 +37,8 @@ namespace WardrobeApi.Controllers
         //[HttpGet]
         public IEnumerable<ClothingDTO> List()
         {
-            //string email = (from c in User.Claims
-            //                   where c.Type == ClaimTypes.Email
-            //                   select new string(c.Value)).First();
-
-            return _db.ListClothes("test");
+            IEnumerable<IDataToOutput> response = _db.SelectByUser(Guid.Empty, "clothes");
+            return (IEnumerable<ClothingDTO>)response;
         }
 
         //[EnableCors]
@@ -58,8 +57,20 @@ namespace WardrobeApi.Controllers
                 Console.WriteLine(HttpContext.User.Claims.ToArray()[i]);
             }
             */
+            //ClothingDTI input = (ClothingDTI)article;
+            ClothingDTI input = new ClothingDTI {
+                uid = Guid.Empty,
+                id = article.id,
+                timeCreated = article.timeCreated,
+                articleName = article.articleName,
+                clothingType = article.clothingType,
+                clothingTags = article.clothingTags,
+                color = article.color,
+                timesWorn = article.timesWorn
+            };
 
             //_db.AddArticle("test", article);
+            _db.Insert(Guid.Empty, input, "clothes");
         }
     }
 }

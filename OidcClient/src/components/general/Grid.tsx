@@ -5,7 +5,10 @@ import {
   Pagination,
   Divider,
 } from 'antd';
+import Modal from 'antd/lib/modal/Modal';
 import React from 'react';
+import Function from '../../util/Function';
+import ClothingFilterSelector from '../applets/wardrobe/general/ClothingFilterSelector';
 import './Grid.css';
 
 type Props<ObjectType> = {
@@ -16,11 +19,15 @@ type Props<ObjectType> = {
 
   width?: number | string | undefined,
   height?: number | string | undefined,
+
+  filterOptions?: Function<ObjectType, boolean>,
 };
 
 type State<ObjectType> = {
+  filterModalOpen: boolean,
   searchText: string,
   currentPage: number,
+  gridData: ObjectType[],
 };
 
 class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectType>> {
@@ -28,21 +35,24 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
     super(props);
 
     this.state = {
+      filterModalOpen: false,
       searchText: '',
       currentPage: 1,
+      gridData: [],
     };
   }
 
   createRow = (i: number):JSX.Element => {
-    const { data, rowSize: modulus, component } = this.props;
+    const { rowSize: modulus, component } = this.props;
+    const { gridData } = this.state;
     const output:JSX.Element[] = [];
 
     let key = 0;
     for (let j = 0; j < modulus; j += 1) {
-      if (i * modulus + j < data.length) {
+      if (i * modulus + j < gridData.length) {
         output.push(
           <div key={key} className="Grid-Element">
-            {component(data[i * modulus + j])}
+            {component(gridData[i * modulus + j])}
           </div>,
         );
         key += 1;
@@ -56,7 +66,9 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
   };
 
   createGrid = ():JSX.Element => {
-    const { data, rowSize: modulus, rowsPerPage: rows } = this.props;
+    const {
+      rowSize: modulus, rowsPerPage: rows, component,
+    } = this.props;
     const { currentPage } = this.state;
     const output:JSX.Element[] = [];
 
@@ -65,7 +77,12 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
       output.push(this.createRow(i));
     }
 
+    // for (let i = 0; i < data.length; i += 1) {
+    //   output.push(component(data[i]));
+    // }
+
     return <div className="Grid-Full">{output}</div>;
+    // return <div className="Grid-Body">{output}</div>;
   };
 
   onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,10 +99,35 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
     });
   };
 
+  openModal = () => {
+    this.setState({
+      filterModalOpen: true,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      filterModalOpen: false,
+    });
+  };
+
+  applyFilters = () => {
+    const { data } = this.props;
+
+    const workingData = data.filter((value: ObjectType) => true);
+
+    this.setState({
+      filterModalOpen: false,
+      gridData: workingData,
+    });
+  };
+
   render() {
     const {
       width, height, data, rowSize: modulus, rowsPerPage: rows,
     } = this.props;
+
+    const { filterModalOpen } = this.state;
 
     return (
       <div className="Grid" style={{ width, height }}>
@@ -99,7 +141,7 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
             />
           )}
           extra={[
-            <Button key="1">Filters</Button>,
+            <Button key="1" onClick={this.openModal}>Filters</Button>,
           ]}
         />
         {this.createGrid()}
@@ -111,6 +153,25 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
             onChange={this.onPageChange}
           />
         </div>
+
+        <Modal
+          title="Filters"
+          visible={filterModalOpen}
+          onCancel={this.closeModal}
+          onOk={this.applyFilters}
+          // footer={[
+          //   <div className="ClothingAdd-Footer">
+          //     <Button className="ClothingAdd-Button" type="ghost" onClick={this.optionsToggle}>
+          //       More Options
+          //     </Button>
+          //     <Button type="primary" onClick={this.onOk}>
+          //       Submit
+          //     </Button>
+          //   </div>,
+          // ]}
+        >
+          <ClothingFilterSelector />
+        </Modal>
       </div>
     );
   }

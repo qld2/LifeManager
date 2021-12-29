@@ -17,6 +17,8 @@ import Function from 'util/Function';
 import { ClothingDTO, addClothingArticle } from 'fetch/wardrobe';
 import userManager from 'util/userManager';
 import { AppState, AppDispatch } from 'src/store';
+import TagSelector from './general/TagSelector';
+import TypeSelector from './general/TypeSelector';
 
 const mapStateToProps = (state: AppState) => ({
   user: state.oidc.user,
@@ -42,7 +44,8 @@ type State = {
   optionsOpen: boolean,
 
   name: string,
-  type: string,
+  selectedType: string,
+  selectedTags: string[],
   color: string,
 
   size?: string,
@@ -56,7 +59,8 @@ class ClothingAddModal extends React.Component<Props, State> {
     this.state = {
       optionsOpen: false,
       name: '',
-      type: '',
+      selectedType: '',
+      selectedTags: [],
       color: '#000000',
     };
   }
@@ -68,10 +72,22 @@ class ClothingAddModal extends React.Component<Props, State> {
 
   onOk = () => {
     const { user, onOk } = this.props;
+    const {
+      name,
+      selectedType,
+      selectedTags,
+      color,
+    } = this.state;
+
     if (onOk) onOk();
 
-    const article:ClothingDTO = this.state;
-    console.log(article);
+    const article:ClothingDTO = {
+      articleName: name,
+      clothingType: selectedType,
+      clothingTags: selectedTags,
+      color,
+    };
+
     addClothingArticle(user?.access_token, article, null, null);
   };
 
@@ -80,8 +96,13 @@ class ClothingAddModal extends React.Component<Props, State> {
       title, visible, onCancel,
     } = this.props;
 
-    const { color, optionsOpen } = this.state;
-    const article:ClothingDTO = this.state;
+    const {
+      color,
+      optionsOpen,
+      selectedType,
+      selectedTags,
+    } = this.state;
+    // const article:ClothingDTO = this.state;
     return (
 
       <Modal
@@ -113,11 +134,16 @@ class ClothingAddModal extends React.Component<Props, State> {
                 onChange={(e) => { this.setState({ name: e.target.value }); }}
               />
               <h3 className="ClothingAdd-Title">Type:</h3>
-              <Input
-                size="large"
+              <TypeSelector
                 className="ClothingAdd-Input"
-                placeholder="Type"
-                onChange={(e) => { this.setState({ type: e.target.value }); }}
+                selected={selectedType}
+                onChange={(s: string) => { this.setState({ selectedType: s }); }}
+              />
+              <h3 className="ClothingAdd-Title">Tags:</h3>
+              <TagSelector
+                className="ClothingAdd-Input"
+                selected={selectedTags}
+                onChange={(a: string[]) => { this.setState({ selectedTags: a }); }}
               />
             </div>
             <div className="ClothingAdd-Right">

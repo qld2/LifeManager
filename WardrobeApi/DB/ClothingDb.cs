@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using MySqlConnector;
 using WardrobeApi.DTO;
 using Dapper;
+using Dapper.Contrib;
 
 namespace WardrobeApi.DB
 {
     public class ClothingDb : IDisposable
     {
-        public MySqlConnection Connection { get; }
+        public IDbConnection Connection { get; }
 
         public ClothingDb(string connectionString)
         {
@@ -24,27 +25,17 @@ namespace WardrobeApi.DB
         //user_id broken
         public IEnumerable<ClothingDTO> ListClothes(string user_id)
         {
-            string SQLQuery = "Select name, clothingType, color From Clothes";
+            string SQLQuery = "Select articleId, articleName, clothingType, clothingTags, color, timeCreated, timesWorn From Clothes";
             return Connection.Query<ClothingDTO>(SQLQuery).ToList();
         }
 
         //user_id broken
         public void AddArticle(string user_id, ClothingDTO article)
         {
-            try
-            {
-                Connection.Open();
-                string sql = "insert into clothes (user_id, guid, name, color, clothingType) values (\"" + "TEST" 
-                   + "\",\"" + Guid.NewGuid() + "\",\"" + article.name + "\",\"" + article.color + "\", \"" + article.type + "\")";
+            string SQLQuery = "insert into clothes (user_id, guid, name, color, clothingType) values (\"" + "TEST"
+                   + "\",\"" + Guid.NewGuid() + "\",\"" + article.articleName + "\",\"" + article.color + "\", \"" + article.clothingType + "\")";
 
-                MySqlCommand cmd = new MySqlCommand(sql, Connection);
-                cmd.ExecuteNonQuery();
-                Connection.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            //Connection.Insert();//.Query<ClothingDTI>(SQLQuery);
         }
     }
 }

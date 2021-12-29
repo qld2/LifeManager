@@ -16,6 +16,7 @@ import './ClothingLibrary.css';
 
 import { getClothingLibrary, ClothingDTO, addClothingArticle } from 'fetch/wardrobe';
 import Grid from 'components/general/Grid';
+import SimpleGrid from 'components/general/SimpleGrid';
 import { AppState, AppDispatch } from 'src/store';
 import { getSecret } from 'fetch/test';
 import ClothingAddModal from './ClothingAddModal';
@@ -56,6 +57,7 @@ class ClothingLibrary extends React.Component<Props, State> {
   }
 
   fillData = (list: ClothingDTO[]): void => {
+    console.log(list);
     this.setState({
       data: list,
     });
@@ -106,7 +108,7 @@ class ClothingLibrary extends React.Component<Props, State> {
           <Grid<ClothingDTO>
             width="100%"
             height="100%"
-            rowSize={8}
+            rowSize={4}
             rowsPerPage={3}
             data={data}
             // component={(article: ClothingDTO) => <div className="Square" />}
