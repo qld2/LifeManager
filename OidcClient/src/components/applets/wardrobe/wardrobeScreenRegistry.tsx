@@ -8,10 +8,11 @@ const wardrobeScreens:IScreen[] = [
     title: 'Clothing Library',
     component: <ClothingLibrary />,
   },
+
   {
     handle: 'outfits',
     title: 'Outfit Library',
-    component: <ClothingLibrary />,
+    component: <div />, // <ClothingLibrary />,
   },
 ];
 

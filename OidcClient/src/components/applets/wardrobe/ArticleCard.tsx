@@ -32,7 +32,7 @@ class ArticleCard extends React.Component<Props, State> {
 
     article.clothingTags?.forEach((tag: string) => {
       output.push(
-        <Button>
+        <Button className="ArticleCard-TagButton">
           { tag }
         </Button>,
       );

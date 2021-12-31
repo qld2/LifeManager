@@ -17,7 +17,7 @@ import './ClothingFilterSelector.css';
 import { getClothingLibrary, ClothingDTO, addClothingArticle } from 'fetch/wardrobe';
 import Grid from 'components/general/Grid';
 import SimpleGrid from 'components/general/SimpleGrid';
-import { AppState, AppDispatch } from 'src/store';
+import { AppState, AppDispatch } from 'src/Root';
 import { getSecret } from 'fetch/test';
 import { SelectOutlined } from '@ant-design/icons';
 import TagSelector from './TagSelector';

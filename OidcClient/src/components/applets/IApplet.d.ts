@@ -1,3 +1,5 @@
+import { WithRouterStatics } from "react-router";
+
 export type IScreen = {
     handle: string,
     title: string,

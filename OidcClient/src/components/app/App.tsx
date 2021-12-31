@@ -21,6 +21,7 @@ import { IApplet } from 'components/applets/IApplet';
 import AuthRoute from '../general/AuthRoute';
 import Sidebar from './Sidebar';
 import { getSecret } from '../../fetch/test';
+import ClothingLibrary from '../applets/wardrobe/ClothingLibrary';
 
 const appletRoutes = ():JSX.Element[] => {
   const result:JSX.Element[] = [];

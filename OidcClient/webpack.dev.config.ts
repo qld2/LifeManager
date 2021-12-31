@@ -81,12 +81,12 @@ const config: Configuration = {
   ],
   devtool: "inline-source-map",
   devServer: {
-    contentBase: path.join(__dirname, "build"),
+    //contentBase: path.join(__dirname, "build"),
     historyApiFallback: true,
     port: 9000,
     open: false,
     hot: true,
-    clientLogLevel: "none"
+    //clientLogLevel: "none"
   },
 };
 

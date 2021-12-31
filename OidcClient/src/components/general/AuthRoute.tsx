@@ -7,12 +7,11 @@ import {
 import { User } from 'oidc-client';
 import { UserState } from 'redux-oidc';
 
-import { AppState, AppDispatch } from '../../store'; // fix import resolution
+import { AppState, AppDispatch } from 'src/Root';
 
 function mapStateToProps(state : AppState) {
   return {
     user: state.oidc.user,
-    identity: state.identity,
   };
 }
 
@@ -25,7 +24,7 @@ type Props = PropsFromRedux & {
 };
 
 function AuthRoute({
-  user, identity, path, children = <div />,
+  user, path, children = <div />,
 } : Props) {
   if (user == null || user.expired) return (<Redirect to="/Homepage" />);
   return <div>{children}</div>;

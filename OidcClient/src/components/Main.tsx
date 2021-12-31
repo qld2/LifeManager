@@ -15,7 +15,7 @@ import { Button } from 'antd';
 import userManager from 'util/userManager';
 
 import './Main.css';
-import { AppState, AppDispatch } from 'src/store'; // fix import resolution
+import { AppState, AppDispatch } from 'src/Root'; // fix import resolution
 import AuthRoute from './general/AuthRoute';
 import Callback from './Callback';
 

@@ -1,13 +1,6 @@
 import React from 'react';
-import { History } from 'history';
-import { connect } from 'react-redux';
-import {
-  withRouter,
-  RouteComponentProps,
-} from 'react-router-dom';
-import {
-  SkinOutlined, CoffeeOutlined, FireOutlined, PropertySafetyFilled,
-} from '@ant-design/icons';
+import { connect, ConnectedProps } from 'react-redux';
+import { push } from 'connected-react-router';
 import {
   Button,
   PageHeader,
@@ -15,6 +8,7 @@ import {
 } from 'antd';
 import applets from 'components/applets/appletRegistry';
 import { IApplet, IScreen } from 'components/applets/IApplet';
+import { AppState, AppDispatch } from 'src/Root';
 
 const { SubMenu } = Menu;
 
@@ -49,11 +43,20 @@ const generateMenuItems = () => {
   return result;
 };
 
-// const rootSubmenuKeys = generateSubmenuKeys();
-// const menuItems = generateMenuItems();
+const mapStateToProps = (state: AppState) => ({
+  user: state.oidc.user,
+});
 
-type Props = RouteComponentProps<null> & {
-  history: History
+function mapDispatchToProps(dispatch : AppDispatch) {
+  return {
+    dispatch,
+  };
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type Props = PropsFromRedux & {
 };
 
 type State = {
@@ -88,9 +91,9 @@ class Sidebar extends React.Component<Props, State> {
   };
 
   onClick = (e: any) => {
-    const { history } = this.props;
-    if (e.key === 'dashboard') history.push('/dashboard');
-    else history.push(`/${e.key}`);
+    const { dispatch } = this.props;
+    if (e.key === 'dashboard') dispatch(push('/dashboard'));
+    else dispatch(push(`/${e.key}`));
   };
 
   render() {
@@ -108,4 +111,4 @@ class Sidebar extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(Sidebar);
+export default connector(Sidebar);

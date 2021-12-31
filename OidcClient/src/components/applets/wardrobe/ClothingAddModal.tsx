@@ -16,7 +16,7 @@ import './ClothingAddModal.css';
 import Function from 'util/Function';
 import { ClothingDTO, addClothingArticle } from 'fetch/wardrobe';
 import userManager from 'util/userManager';
-import { AppState, AppDispatch } from 'src/store';
+import { AppState, AppDispatch } from 'src/Root';
 import TagSelector from './general/TagSelector';
 import TypeSelector from './general/TypeSelector';
 

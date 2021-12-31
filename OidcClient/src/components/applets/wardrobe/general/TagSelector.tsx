@@ -16,7 +16,7 @@ import './TagSelector.css';
 import Function from 'util/Function';
 import { ClothingDTO, addClothingArticle } from 'fetch/wardrobe';
 import userManager from 'util/userManager';
-import { AppState, AppDispatch } from 'src/store';
+import { AppState, AppDispatch } from 'src/Root';
 
 type TagType = string;
 const tagTypes: TagType[] = ['Shirt', 'Pants', 'Shoes', 'Shorts', 'Socks', 'Sweater'];

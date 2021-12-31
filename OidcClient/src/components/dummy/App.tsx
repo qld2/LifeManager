@@ -12,7 +12,7 @@ import {
 } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 
-import { AppState, AppDispatch } from '../../store'; // fix import resolution
+import { AppState, AppDispatch } from 'src/Root'; 
 import './App.css';
 import { getSecret } from '../../fetch/test';
 

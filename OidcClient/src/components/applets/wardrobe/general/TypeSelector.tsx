@@ -16,7 +16,7 @@ import './TypeSelector.css';
 import Function from 'util/Function';
 import { ClothingDTO, addClothingArticle } from 'fetch/wardrobe';
 import userManager from 'util/userManager';
-import { AppState, AppDispatch } from 'src/store';
+import { AppState, AppDispatch } from 'src/Root';
 
 type ClothingType = string;
 const clothingTypes: ClothingType[] = ['Shirt', 'Pants', 'Shoes'];

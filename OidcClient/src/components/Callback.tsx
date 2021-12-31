@@ -7,8 +7,8 @@ import {
 import { User, UserManager } from 'oidc-client';
 import { UserState } from 'redux-oidc';
 
+import { AppState, AppDispatch } from 'src/Root'; // fix import resolution
 import { login, logout } from '../reducer/identity/identitySlice';
-import { AppState, AppDispatch } from '../store'; // fix import resolution
 
 function mapStateToProps(state : AppState) {
   return {
