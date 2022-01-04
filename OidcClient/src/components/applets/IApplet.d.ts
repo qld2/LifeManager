@@ -1,9 +1,11 @@
 import { WithRouterStatics } from "react-router";
 
 export type IScreen = {
-    handle: string,
+    handle?: string,
     title: string,
     component: JSX.Element,
+    listed?: boolean,
+
 }
 
 export type IApplet = {

@@ -23,7 +23,7 @@ namespace DbLib
     public class Table<DataToOutput, DataToInput, TableSchema> 
         : ITable<DataToOutput, DataToInput, TableSchema>
         where DataToOutput : IDataToOutput
-        where DataToInput : IDataToInput, DataToOutput//, new()
+        where DataToInput : IDataToInput, DataToOutput
         where TableSchema : ITableSchema
     {
         public string _name { get; }
@@ -73,6 +73,7 @@ namespace DbLib
             string SQLQuery = "Select * From " + _name;
             return SQLQuery;
         }
+
         private string GetSQLInsert(TableSchema input)
         {
             PropertyInfo[] properties = typeof(TableSchema).GetProperties();

@@ -34,12 +34,26 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
   constructor(props : Props<ObjectType>) {
     super(props);
 
+    const { data } = props;
+    const copiedData = data.filter((value: ObjectType) => true);
+    console.log(data);
+    console.log(copiedData);
+
     this.state = {
       filterModalOpen: false,
       searchText: '',
       currentPage: 1,
-      gridData: [],
+      gridData: copiedData,
     };
+  }
+
+  componentDidUpdate(prevProps: Props<ObjectType>) {
+    const { data } = this.props;
+    if (prevProps.data !== data) {
+      this.setState({
+        gridData: data,
+      });
+    }
   }
 
   createRow = (i: number):JSX.Element => {
@@ -114,11 +128,11 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
   applyFilters = () => {
     const { data } = this.props;
 
-    const workingData = data.filter((value: ObjectType) => true);
+    // const workingData = data.filter((value: ObjectType) => true);
 
     this.setState({
       filterModalOpen: false,
-      gridData: workingData,
+      gridData: data,
     });
   };
 

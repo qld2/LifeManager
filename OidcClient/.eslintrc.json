@@ -24,7 +24,8 @@
       "max-len": "warn",
       "@typescript-eslint/no-unused-expressions": "warn",
       "react/no-unused-prop-types": "warn",
-      "react/prefer-stateless-function": "warn"
+      "react/prefer-stateless-function": "warn",
+      "react/no-did-update-set-state": "warn"
       //"@typescript-eslint/no-param-reassign": "off"
     },
     "settings": {

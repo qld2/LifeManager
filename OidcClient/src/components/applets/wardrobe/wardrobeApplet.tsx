@@ -22,4 +22,5 @@ const wardrobeApplet: IApplet = {
   component: <WardrobeApplet />,
   screens: wardrobeScreens,
 };
+
 export default wardrobeApplet;

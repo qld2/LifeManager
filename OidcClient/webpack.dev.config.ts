@@ -87,6 +87,9 @@ const config: Configuration = {
     open: false,
     hot: true,
     //clientLogLevel: "none"
+    client: {
+      overlay: false,
+    }
   },
 };
 
