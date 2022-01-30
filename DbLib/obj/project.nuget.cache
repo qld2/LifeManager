@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "VkOnWcLUlqWk0F1r/5SFgSzxHEwo5ui4Pny5Fcjt2pTJAQlUUqK5c5UKowLkDn14hhXX42YNJIISj2tpEZfwOw==",
+  "dgSpecHash": "E/SPEKiwTMDBhzBUFrgfDhXoR5o8GwnABtY8vck4VgdbQTpq+xhHcctIWCoYqno+MvTVwEOQ6Dh2PwP54lllXA==",
   "success": true,
   "projectFilePath": "C:\\Development\\LifeManager\\DbLib\\DbLib.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Quinn Donovan\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
+    "C:\\Users\\Quinn Donovan\\.nuget\\packages\\commandlineparser\\2.8.0\\commandlineparser.2.8.0.nupkg.sha512",
     "C:\\Users\\Quinn Donovan\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\Quinn Donovan\\.nuget\\packages\\dapper.contrib\\2.0.78\\dapper.contrib.2.0.78.nupkg.sha512",
     "C:\\Users\\Quinn Donovan\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",

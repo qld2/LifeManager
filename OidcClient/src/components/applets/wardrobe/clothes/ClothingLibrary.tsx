@@ -1,14 +1,4 @@
 import React from 'react';
-import {
-  Button,
-  PageHeader,
-  Menu,
-  Row,
-  Col,
-  Empty,
-  Spin,
-  Modal,
-} from 'antd';
 import { connect, ConnectedProps } from 'react-redux';
 import {
   withRouter,
@@ -16,6 +6,10 @@ import {
 } from 'react-router-dom';
 import { push } from 'connected-react-router';
 
+import {
+  Button,
+  PageHeader,
+} from 'antd';
 import 'antd/dist/antd.css';
 import './ClothingLibrary.css';
 
@@ -25,12 +19,19 @@ import SimpleGrid from 'components/general/SimpleGrid';
 import { AppState, AppDispatch } from 'src/Root';
 import { getSecret } from 'fetch/test';
 import { compose } from 'redux';
+import { HEADER_HEIGHT } from 'util/sizeConstants';
+import Filter from 'components/general/Filter';
+import Function from 'util/Function';
+
 import ClothingAddModal from './ClothingAddModal';
 import ArticleCard from './ArticleCard';
 import ClothingShowModal from './ClothingShowModal';
+import ArticleFilter from './ArticleFilter';
 
 const mapStateToProps = (state: AppState) => ({
   user: state.oidc.user,
+  appletWidth: state.applet.width,
+  appletHeight: state.applet.height,
 });
 
 function mapDispatchToProps(dispatch : AppDispatch) {
@@ -69,7 +70,6 @@ class ClothingLibrary extends React.Component<Props, State> {
   }
 
   fillData = (list: ClothingDTO[]): void => {
-    console.log(list);
     this.setState({
       data: list,
     });
@@ -121,6 +121,11 @@ class ClothingLibrary extends React.Component<Props, State> {
 
   render() {
     const {
+      appletWidth,
+      appletHeight,
+    } = this.props;
+
+    const {
       loading, data, onAdd,
       activeArticle,
       clothingAddModalOpen: addModalOpen,
@@ -139,7 +144,12 @@ class ClothingLibrary extends React.Component<Props, State> {
           ]}
         />
 
-        <ClothingAddModal title="Add Clothing Article" visible={addModalOpen} onOk={this.closeClothingAddModal} onCancel={this.closeClothingAddModal} />
+        <ClothingAddModal
+          title="Add Clothing Article"
+          visible={addModalOpen}
+          onOk={this.closeClothingAddModal}
+          onCancel={this.closeClothingAddModal}
+        />
         <ClothingShowModal
           title="View Article"
           visible={showModalOpen}
@@ -150,13 +160,15 @@ class ClothingLibrary extends React.Component<Props, State> {
 
         <div className="ClothingLibrary-App">
           <Grid<ClothingDTO>
-            width="100%"
-            height="100%"
-            rowSize={4}
-            rowsPerPage={3}
+            width={appletWidth}
+            height={appletHeight - HEADER_HEIGHT}
             data={data}
-            component={(article: ClothingDTO) => <Button onClick={() => this.openArticleInfo(article)}>Open Article Info</Button>}
-            // component={(article: ClothingDTO) => <ArticleCard article={article} />}
+            // component={(article: ClothingDTO) => <Button style={{ width: 200, height: 200 }} onClick={() => this.openArticleInfo(article)}>Open Article Info</Button>}
+            component={(article: ClothingDTO) => <ArticleCard article={article} />}
+            componentSize={{ width: 300, height: 180 }}
+            // filterFactory={(onChange:Function<Function<ClothingDTO, boolean>, void>) => <Filter<ClothingDTO> onChange={onChange} width={500} height={500} />}
+            filterFactory={(onChange:Function<Function<ClothingDTO, boolean>, void>) => <ArticleFilter onChange={onChange} width={500} height={500} />}
+            searchFunc={(input: ClothingDTO, searchText: string) => input.articleName.includes(searchText)}
           />
         </div>
       </div>

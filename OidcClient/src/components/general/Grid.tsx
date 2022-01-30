@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Button,
   PageHeader,
@@ -6,28 +7,41 @@ import {
   Divider,
 } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
-import React from 'react';
-import Function from '../../util/Function';
-import ClothingFilterSelector from '../applets/wardrobe/general/ClothingFilterSelector';
 import './Grid.css';
 
+import Function from 'util/Function';
+import { HEADER_HEIGHT } from 'util/sizeConstants';
+import ClothingFilterSelector from 'components/applets/wardrobe/general/ClothingFilterSelector';
+import Filter from './Filter';
+import IFilter from './IFilter';
+import TestComponent from './TestComponent';
+import SimpleGrid from './SimpleGrid';
+
+export type ComponentSize = {
+  width: number,
+  height: number,
+};
+
 type Props<ObjectType> = {
-  rowSize: number,
-  rowsPerPage: number,
+  width: number,
+  height: number,
   data: ObjectType[],
-  component: (x: ObjectType) => JSX.Element,
-
-  width?: number | string | undefined,
-  height?: number | string | undefined,
-
-  filterOptions?: Function<ObjectType, boolean>,
+  component: Function<ObjectType, JSX.Element>,
+  componentSize: ComponentSize,
+  filterFactory: Function<Function<Function<ObjectType, boolean>, void>, JSX.Element>,
+  searchFunc: (datum: ObjectType, searchText: string) => boolean,
 };
 
 type State<ObjectType> = {
+  rowSize: number,
+  rowsPerPage: number,
   filterModalOpen: boolean,
   searchText: string,
   currentPage: number,
   gridData: ObjectType[],
+
+  currentFilter?: JSX.Element
+  filterFunc: Function<ObjectType, boolean>,
 };
 
 class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectType>> {
@@ -36,54 +50,100 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
 
     const { data } = props;
     const copiedData = data.filter((value: ObjectType) => true);
-    console.log(data);
-    console.log(copiedData);
 
     this.state = {
+      rowSize: this.calculateRowSize(),
+      rowsPerPage: this.calculateRowsPerPage(),
       filterModalOpen: false,
       searchText: '',
       currentPage: 1,
       gridData: copiedData,
+      filterFunc: (datum: ObjectType) => true,
     };
   }
 
+  componentDidMount() {
+    const { filterFactory } = this.props;
+
+    this.setState({
+      currentFilter: filterFactory(this.setFilterFunc),
+    });
+  }
+
   componentDidUpdate(prevProps: Props<ObjectType>) {
-    const { data } = this.props;
+    const { data, height, width } = this.props;
+
     if (prevProps.data !== data) {
       this.setState({
         gridData: data,
       });
     }
+
+    if (prevProps.height !== height || prevProps.width !== width) {
+      this.setState({
+        rowSize: this.calculateRowSize(),
+        rowsPerPage: this.calculateRowsPerPage(),
+      });
+    }
   }
 
-  createRow = (i: number):JSX.Element => {
-    const { rowSize: modulus, component } = this.props;
-    const { gridData } = this.state;
-    const output:JSX.Element[] = [];
+  calculateRowSize = ():number => {
+    const { width, componentSize } = this.props;
+    return Math.floor(width / componentSize.width);
+  };
 
-    let key = 0;
+  calculateRowsPerPage = ():number => {
+    const { height, componentSize } = this.props;
+    return Math.floor((height - 2 * HEADER_HEIGHT) / componentSize.height);
+  };
+
+  createRow = (i: number):JSX.Element => {
+    const { component, componentSize, width: gridWidth } = this.props;
+    const { rowSize: modulus, gridData, rowsPerPage } = this.state;
+    const { width: componentWidth, height: componentHeight } = componentSize;
+
+    const rowSeperator = (key: number):JSX.Element => (
+      <div
+        key={key}
+        style={{
+          width: (gridWidth - modulus * componentWidth) / (modulus + 1),
+          height: componentHeight,
+        }}
+      />
+    );
+
+    const output:JSX.Element[] = [rowSeperator(0)];
+    let key = 1;
     for (let j = 0; j < modulus; j += 1) {
       if (i * modulus + j < gridData.length) {
         output.push(
-          <div key={key} className="Grid-Element">
+          <div key={key}>
             {component(gridData[i * modulus + j])}
           </div>,
         );
-        key += 1;
+        output.push(rowSeperator(key + 1));
+        key += 2;
       } else {
-        output.push(<div key={key} className="Grid-Element" />);
-        key += 1;
+        output.push(<div style={{ width: componentWidth, height: componentHeight }} key={key} />);
+        output.push(rowSeperator(key + 1));
+        key += 2;
       }
     }
 
-    return <div key={i} className="Grid-Row">{output}</div>;
+    return <div style={{ width: gridWidth, height: componentHeight }} key={i} className="Grid-Row">{output}</div>;
   };
 
   createGrid = ():JSX.Element => {
     const {
-      rowSize: modulus, rowsPerPage: rows, component,
+      component, width,
     } = this.props;
-    const { currentPage } = this.state;
+
+    const {
+      rowSize: modulus,
+      rowsPerPage: rows,
+      currentPage,
+    } = this.state;
+
     const output:JSX.Element[] = [];
 
     const start:number = (currentPage - 1) * rows;
@@ -91,19 +151,20 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
       output.push(this.createRow(i));
     }
 
-    // for (let i = 0; i < data.length; i += 1) {
-    //   output.push(component(data[i]));
-    // }
-
-    return <div className="Grid-Full">{output}</div>;
-    // return <div className="Grid-Body">{output}</div>;
+    return <div style={{ width }} className="Grid-Full">{output}</div>;
   };
 
   onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    const { data, searchFunc } = this.props;
+    const { filterFunc } = this.state;
+
+    const searchText = e.target.value;
+    const workingData = data.filter(filterFunc)
+      .filter((datum: ObjectType) => searchFunc(datum, searchText));
 
     this.setState({
-      searchText: e.target.value,
+      gridData: workingData,
+      searchText,
     });
   };
 
@@ -125,23 +186,34 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
     });
   };
 
-  applyFilters = () => {
-    const { data } = this.props;
+  setFilterFunc = (f: (datum: ObjectType) => boolean) => {
+    this.setState({
+      filterFunc: f,
+    });
+  };
 
-    // const workingData = data.filter((value: ObjectType) => true);
+  applyFilters = () => {
+    const { data, searchFunc } = this.props;
+    const { filterFunc, searchText } = this.state;
+
+    const workingData = data.filter(filterFunc)
+      .filter((datum: ObjectType) => searchFunc(datum, searchText));
 
     this.setState({
       filterModalOpen: false,
-      gridData: data,
+      gridData: workingData,
     });
   };
 
   render() {
     const {
-      width, height, data, rowSize: modulus, rowsPerPage: rows,
+      width, height, data,
     } = this.props;
 
-    const { filterModalOpen } = this.state;
+    const {
+      filterModalOpen, rowSize: modulus, rowsPerPage: rows, currentFilter,
+      searchText,
+    } = this.state;
 
     return (
       <div className="Grid" style={{ width, height }}>
@@ -151,6 +223,8 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
           title={(
             <Input
               allowClear
+              placeholder="Search"
+              value={searchText}
               onChange={this.onSearchChange}
             />
           )}
@@ -159,6 +233,7 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
           ]}
         />
         {this.createGrid()}
+        {/* <SimpleGrid <ObjectType> /> */}
         <div className="Grid-Footer">
           <Pagination
             defaultCurrent={1}
@@ -173,18 +248,8 @@ class Grid<ObjectType> extends React.Component<Props<ObjectType>, State<ObjectTy
           visible={filterModalOpen}
           onCancel={this.closeModal}
           onOk={this.applyFilters}
-          // footer={[
-          //   <div className="ClothingAdd-Footer">
-          //     <Button className="ClothingAdd-Button" type="ghost" onClick={this.optionsToggle}>
-          //       More Options
-          //     </Button>
-          //     <Button type="primary" onClick={this.onOk}>
-          //       Submit
-          //     </Button>
-          //   </div>,
-          // ]}
         >
-          <ClothingFilterSelector />
+          {currentFilter}
         </Modal>
       </div>
     );

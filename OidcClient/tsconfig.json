@@ -11,6 +11,7 @@
         "util/*": ["src/util/*"],
         "store/*": ["src/store/*"],
         "resources/*": ["src/resources/*"],
+        "expirimental/*": ["src/expirimental/*"],
       },
       "lib": ["dom", "dom.iterable", "esnext"],
       "allowJs": true,
@@ -25,5 +26,5 @@
       "noEmit": true,
       "jsx": "react"
     },
-    "include": ["src"],
+    "include": ["src", "src/custom.d.ts"],
   }

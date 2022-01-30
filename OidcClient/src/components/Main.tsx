@@ -10,19 +10,26 @@ import { RouteComponentProps } from 'react-router';
 import { loadUser, CallbackComponent, userFound } from 'redux-oidc';
 import { connect, ConnectedProps } from 'react-redux';
 import { User } from 'oidc-client';
+
 import { Button } from 'antd';
+import 'antd/dist/antd.css';
+import './Main.css';
+
+//--
 
 import userManager from 'util/userManager';
-
-import './Main.css';
+import useWindowDimensions, { Dimensions } from 'util/windowDimensions';
+import { setDimensions } from 'reducer/applet/appletSlice';
 import { AppState, AppDispatch } from 'src/Root'; // fix import resolution
+import { HEADER_HEIGHT } from 'util/sizeConstants';
+
 import AuthRoute from './general/AuthRoute';
 import Callback from './Callback';
-
 import App from './app/App';
-
-import 'antd/dist/antd.css';
 import Homepage from './homepage/Homepage';
+import { SIDEBAR_WIDTH } from './app/Sidebar';
+
+// ____
 
 function mapStateToProps(state : AppState) {
   return {
@@ -50,8 +57,17 @@ function Main(props : Props) {
     console.error(error);
   };
 
+  const setAppletDimensions = (windowDimensions: Dimensions) => {
+    const { dispatch } = props;
+    dispatch(setDimensions({
+      width: windowDimensions.width - SIDEBAR_WIDTH,
+      height: windowDimensions.height - HEADER_HEIGHT,
+    }));
+  };
+
+  const { width, height } = useWindowDimensions(setAppletDimensions);
   return (
-    <div className="Main">
+    <div style={{ width, height }}>
       <Switch>
         <Route path="/Callback">
           <CallbackComponent userManager={userManager} successCallback={successCallback} errorCallback={errorCallback}>
@@ -62,7 +78,7 @@ function Main(props : Props) {
           <Homepage />
         </Route>
         <AuthRoute path="/">
-          <App />
+          <App width={width} height={height} />
         </AuthRoute>
       </Switch>
     </div>

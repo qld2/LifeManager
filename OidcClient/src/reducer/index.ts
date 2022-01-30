@@ -6,11 +6,13 @@ import idReducer from './id/idReducer';
 import counterReducer from './counter/counterReducer';
 import sliceCounterReducer from './sliceCounter/counterSlice';
 import identityReducer from './identity/identitySlice';
+import appletReducer from './applet/appletSlice';
 
 const createRootReducer = (history: History) => combineReducers(
   {
     oidc: oidcReducer,
     router: connectRouter(history),
+    applet: appletReducer,
 
     // id: idReducer,
     // count: counterReducer,

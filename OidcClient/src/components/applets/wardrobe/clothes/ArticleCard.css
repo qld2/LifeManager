@@ -1,10 +1,7 @@
 .ArticleCard {
-    width: 300px;
-    height: 180px;
     background: white;
     border: 1px solid rgb(235, 237, 240);
-    margin: 5%;
-    padding: 10px;
+    border: 1px solid #4675bb;
 
     display: flex;
     flex-direction: row;
@@ -18,8 +15,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
-    background-color: blue;
+    justify-content: space-between;
 }
 
 .ArticleCard-Right {
@@ -28,9 +24,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: flex-end;
-
-    background-color: crimson;
+    justify-content: space-between;
 }
 
 
@@ -42,10 +36,14 @@
 
 .ArticleCard-BelowIcon {
     width: 100%;
-    height: fit-content;
+    height: 100%;
 
-    background-color:darkgreen;
     align-self: flex-end;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .ArticleCard-Title {
@@ -55,4 +53,8 @@
 
 .ArticleCard-TagButton {
     margin: 0.5em
+}
+
+.ArticleCard-Button {
+    width: fit-content;
 }

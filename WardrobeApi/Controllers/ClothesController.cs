@@ -58,6 +58,7 @@ namespace WardrobeApi.Controllers
             }
             */
             //ClothingDTI input = (ClothingDTI)article;
+
             ClothingDTI input = new ClothingDTI {
                 uid = Guid.Empty,
                 id = article.id,

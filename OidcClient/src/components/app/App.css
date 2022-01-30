@@ -1,8 +1,6 @@
 .App {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
 }
   
 .App-PageHeader {
@@ -25,7 +23,6 @@
 
 .App-Viewport {
   background: lightblue;
-  flex: 6;
   overflow-x: hidden;
   overflow-y: auto;
 }

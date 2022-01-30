@@ -1,7 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 
-import TShirtIcon from 'resources/TShirtIcon';
 import { Button } from 'antd';
 import { connect, ConnectedProps } from 'react-redux';
 

@@ -10,6 +10,8 @@ import applets from 'components/applets/appletRegistry';
 import { IApplet, IScreen } from 'components/applets/IApplet';
 import { AppState, AppDispatch } from 'src/Root';
 
+export const SIDEBAR_WIDTH = 250;
+
 const { SubMenu } = Menu;
 
 const generateSubmenuKeys = (): string[] => {
