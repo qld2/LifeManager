@@ -1,5 +1,4 @@
-﻿using MySqlConnector;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,38 +6,79 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib;
-using System.Reflection;
+
+using DbLib.Table;
+using MySqlConnector;
 
 namespace DbLib
 {
-    public class Db : IDisposable
+    public interface IDb : IDisposable
     {
-        public IDbConnection _connection { get; }
+        public MockTable<ITableSchema> GetCurrentState(string tableName);
+    }
 
-        private Dictionary<string, ITable<IDataToOutput, IDataToInput, ITableSchema>> _tables { get; }
+    public class Db : IDb
+    {
+        private string _title { get; }
+        private IDbConnection _connection { get; }
+        private Dictionary<string, ITaable<ITableSchema>> _tables;//ITable<IDataToOutput, IDataToInput, ITableSchema>> _tables { get; }
+        public Db(string title, IDbConnection connection)
+        {
+            _title = title;
+            _connection = connection;
+        }
 
         public void Dispose() => _connection.Dispose();
-
-        public Db(string connectionString)
+        public MockTable<ITableSchema> GetCurrentState(string tableName)
         {
-            _connection = new MySqlConnection(connectionString);
-            _tables = new Dictionary<string, ITable<IDataToOutput, IDataToInput, ITableSchema>>();
+            ITaable<ITableSchema> table = _tables[tableName];
+            MockTable<ITableSchema> result = new MockTable<ITableSchema>(table);
+            return result;
         }
 
-        public void AddTable(ITable<IDataToOutput, IDataToInput, ITableSchema> table)
+        public bool RefreshTables()
         {
-            _tables.Add(table._name, table);
+            _tables = new Dictionary<string, ITaable<ITableSchema>>();
+
+            try
+            {
+                IEnumerable<string> result = _connection.Query<string>("SHOW TABLES");
+
+                //foreach (string name in result)
+                //{
+                //    _tables.Add(name, new Taable<>(name, _connection));
+                //}
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error refreshing dbs, SQL Query Failed.");
+            }
+
+            return false;
         }
 
-        public IEnumerable<IDataToOutput> SelectByUser(Guid userId, string tableName) {
-            if (_tables.ContainsKey(tableName))
-                return _tables[tableName].SelectByUser(_connection, userId);
-            else return new List<IDataToOutput>();
-        }
+        //public void AddTable(ITaable<ITableSchema> table)
+        //{
+        //    _tables.Add(table.Name, table);
+        //}
 
-        public void Insert(Guid userId, IDataToInput dataToInput, string tableName)
-        {
-            _tables[tableName].Insert(_connection, dataToInput);
-        }
+        //public void AddTable(ITable<IDataToOutput, IDataToInput, ITableSchema> table)
+        //{
+        //    _tables.Add(table._name, table);
+        //}
+
+        //public IEnumerable<IDataToOutput> SelectByUser(Guid userId, string tableName)
+        //{
+        //    if (_tables.ContainsKey(tableName))
+        //        return _tables[tableName].SelectByUser(_connection, userId);
+        //    else return new List<IDataToOutput>();
+        //}
+
+        //public void Insert(Guid userId, IDataToInput dataToInput, string tableName)
+        //{
+        //    _tables[tableName].Insert(_connection, dataToInput);
+        //}
     }
 }

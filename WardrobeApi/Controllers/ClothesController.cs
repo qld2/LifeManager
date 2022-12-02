@@ -14,7 +14,6 @@ using System.Data;
 using Microsoft.IdentityModel.Protocols;
 using System.Data.SqlClient;
 using Dapper;
-using DbLib;
 
 namespace WardrobeApi.Controllers
 {
@@ -23,10 +22,11 @@ namespace WardrobeApi.Controllers
     //[ApiController]
     public class ClothesController : Controller //Base
     {
-        //public ClothingDb _db { get; set; }
-        public Db _db;
+        public ClothingDb _db { get; set; }
+        //public DbManager _db;
+        //public Db _db;
 
-        public ClothesController(Db db)
+        public ClothesController(ClothingDb db)
         {
             _db = db;
         }
@@ -36,9 +36,8 @@ namespace WardrobeApi.Controllers
         //[EnableCors]
         //[HttpGet]
         public IEnumerable<ClothingDTO> List()
-        {
-            IEnumerable<IDataToOutput> response = _db.SelectByUser(Guid.Empty, "clothes");
-            return (IEnumerable<ClothingDTO>)response;
+        {   
+            return _db.ListClothes("test");
         }
 
         //[EnableCors]
@@ -65,13 +64,11 @@ namespace WardrobeApi.Controllers
                 timeCreated = article.timeCreated,
                 articleName = article.articleName,
                 clothingType = article.clothingType,
-                clothingTags = article.clothingTags,
                 color = article.color,
                 timesWorn = article.timesWorn
             };
 
-            //_db.AddArticle("test", article);
-            _db.Insert(Guid.Empty, input, "clothes");
+            _db.AddArticle("test", article);
         }
     }
 }

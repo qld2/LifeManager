@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DbLib": {
+      "commandName": "Project",
+      "commandLineArgs": "download -d wardrobemanager -t clothes -o First.csv"
+    }
+  }
+}

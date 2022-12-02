@@ -25,17 +25,17 @@ namespace WardrobeApi.DB
         //user_id broken
         public IEnumerable<ClothingDTO> ListClothes(string user_id)
         {
-            string SQLQuery = "Select articleId, articleName, clothingType, clothingTags, color, timeCreated, timesWorn From Clothes";
+            string SQLQuery = "Select id AS GuidByDapper, articleName, clothingType, color, timeCreated, timesWorn From Clothes";
             return Connection.Query<ClothingDTO>(SQLQuery).ToList();
         }
 
         //user_id broken
         public void AddArticle(string user_id, ClothingDTO article)
         {
-            string SQLQuery = "insert into clothes (user_id, guid, name, color, clothingType) values (\"" + "TEST"
+            string SQLQuery = "insert into clothes (uid, id, articleName, color, clothingType) values (\"" + "TEST"
                    + "\",\"" + Guid.NewGuid() + "\",\"" + article.articleName + "\",\"" + article.color + "\", \"" + article.clothingType + "\")";
 
-            //Connection.Insert();//.Query<ClothingDTI>(SQLQuery);
+            Connection.Query<ClothingDTI>(SQLQuery);
         }
     }
 }

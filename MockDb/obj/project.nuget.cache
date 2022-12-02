@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "uVFOnDm1HA9W2uwADaozeHqyFcdGfBMntVgAcJiPWODKlXTMYojAx6LGoCbqKIS6oNKL6WYBd3TcBG6NqHb3DA==",
+  "success": true,
+  "projectFilePath": "C:\\Development\\LifeManager\\MockDb\\MockDb.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Quinn Donovan\\.nuget\\packages\\commandlineparser\\2.8.0\\commandlineparser.2.8.0.nupkg.sha512",
+    "C:\\Users\\Quinn Donovan\\.nuget\\packages\\mysqlconnector\\2.1.4\\mysqlconnector.2.1.4.nupkg.sha512"
+  ],
+  "logs": []
+}

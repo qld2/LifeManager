@@ -1,4 +1,4 @@
-﻿using DbLib;
+﻿using DbLib.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,6 @@ namespace WardrobeApi.DTO
         public string timeCreated { get; set; }
         public string articleName { get; set; }
         public string clothingType { get; set; }
-        public IEnumerable<string> clothingTags { get; set; }
         public string color { get; set; }
         public int timesWorn { get; set; }
 
@@ -28,7 +27,6 @@ namespace WardrobeApi.DTO
             id = Guid.Empty;
             timeCreated = "NONEXISTANT";
             clothingType = "NONEXISTANT";
-            clothingTags = new List<string>();
             color = "NONEXISTANT";
             timesWorn = 0;
         }

@@ -1,4 +1,3 @@
-using DbLib;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,22 +25,23 @@ namespace WardrobeApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddTransient(_ => 
-            //{ 
-            //    new ClothingDb(Configuration["Databases:MySql"])
-
-            //});
-
             services.AddTransient(_ =>
             {
-                Db db = new Db(Configuration["Databases:MySql"]);
-
-                ITable<IDataToOutput, IDataToInput, ITableSchema> table 
-                    = new Table<ClothingDTO, ClothingDTI, ClothingSchema>("clothes");
-                db.AddTable(table);
-
-                return db;
+                return new ClothingDb(Configuration["Databases:MySql"]);
             });
+
+            //services.AddTransient(_ =>
+            //{
+            //    //DbManager db = new DbManager(Configuration["Databases:MySql"]);
+
+            //    Db db = new Db("wardrobedb");
+
+            //    ITable<IDataToOutput, IDataToInput, ITableSchema> table 
+            //        = new Table<ClothingDTO, ClothingDTI, ClothingSchema>("clothes");
+            //    db.AddTable(table);
+
+            //    return db;
+            //});
 
             //services.AddTransient(_ => Configuration["Databases:MySql"]);
 
